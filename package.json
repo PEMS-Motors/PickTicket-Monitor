@@ -1,0 +1,16 @@
+{
+  "name": "PEMS-Monitor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TFinch",
+  "license": "MIT",
+  "dependencies": {
+    "pm2": "^2.10.2",
+    "discord.js": "^11.4.2",
+    "request-promise": "^4.2.4"
+  }
+}
