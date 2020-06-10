@@ -1,59 +1,61 @@
-try {
-    var config = process.cwd() + '/config.js';
-    config = require(config);
-} catch (error) {
-    console.error('ERROR -> Unable to load config file.');
-    process.exit(1);
-}
+/**
+ * Module Imports
+ */
+const { Client, Collection } = require("discord.js");
+const { readdirSync } = require("fs");
+const { join } = require("path");
+const { TOKEN, PREFIX } = require("./config.json");
 
-const fs = require('fs')
-const Discord = require('discord.js');
-const Client = require('./client/Client');
+const client = new Client({ disableEveryone: true, disabledEvents: ["TYPING_START"] });
 
-const client = new Client();
-client.commands = new Discord.Collection();
+client.login(TOKEN);
+client.commands = new Collection();
+client.prefix = PREFIX;
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+/**
+ * Client Events
+ */
+client.on("ready", () => {
+    console.log(`${client.user.username} ready!`);
+    client.user.setActivity(`Swag | ${PREFIX}`);
+});
+client.on("warn", (info) => console.log(info));
+client.on("error", console.error);
 
+/**
+ * Import all commands
+ */
+const commandFiles = readdirSync(join(__dirname, "commands")).filter((file) => file.endsWith(".js"));
 for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+    const command = require(join(__dirname, "commands", `${file}`));
     client.commands.set(command.name, command);
 }
 
-console.log(client.commands);
-
-client.once('ready', () => {
-    console.log('Ready!');
-});
-
-client.once('reconnecting', () => {
-    console.log('Reconnecting!');
-});
-
-client.once('disconnect', () => {
-    console.log('Disconnect!');
-});
-
-client.on('message', async message => {
-    const args = message.content.slice(prefix.length).split(/ +/);
-    const commandName = args.shift().toLowerCase();
-    const command = client.commands.get(commandName);
-
+client.on("message", async (message) => {
     if (message.author.bot) return;
-    if (!message.content.startsWith(prefix)) return;
+    if (!message.guild) return;
 
-    try {
-        if (commandName == "ban" || commandName == "userinfo") {
-            command.execute(message, client);
-        } else {
-            command.execute(message);
+    if (message.content.startsWith(PREFIX)) {
+        const args = message.content.slice(PREFIX.length).trim().split(/ +/);
+        const commandName = args.shift().toLowerCase();
+
+        const swearWords = ["shit", "fuck", "dog poop"];
+        if (swearWords.some(word => message.content.includes(word))) {
+            message.reply("Oh no you said a bad word!!!");
+            // Or just do message.delete();
         }
-    } catch (error) {
-        console.error(error);
-        message.reply('There was an error trying to execute that command!');
+
+        const command =
+            client.commands.get(commandName) ||
+            client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+
+        if (!command) return;
+
+        try {
+            command.execute(message, args);
+        } catch (error) {
+            console.error(error);
+            message.reply("There was an error executing that command.").catch(console.error);
+        }
     }
 });
-
-
-// Start the bot
-client.login(config.bot.botToken);

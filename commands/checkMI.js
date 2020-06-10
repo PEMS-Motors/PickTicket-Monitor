@@ -1,47 +1,22 @@
-const fs = require('fs')
-var config = require('../config.js');
-
+const { MessageEmbed, splitMessage } = require("discord.js");
 
 module.exports = {
-    name: 'userinfo',
-    description: 'Get information about a user.',
-    execute(message, client) {
-        var dirwatch = require("./util/DirectoryWatcher.js");
-        var simMonitor = new dirwatch.DirectoryWatcher("C:\\sim", true);
-        // start the monitor and have it check for updates
-        // every half second.
-        miMonitor.start(500);
+    name: "checkMI",
+    aliases: ['mi'],
+    description: "Check the MI Warehouse pick tickets.",
+    execute(message) {
+        const serverQueue = message.client.queue.get(message.guild.id);
 
-        // Log to the console when a file is removed
-        miMonitor.on("fileRemoved", function (filePath) {
-            console.log("File Deleted: " + filePath);
-        }),
+        let queueEmbed = new MessageEmbed()
+            .setTitle("EvoBot Music Queue")
+            .setDescription(serverQueue.songs.map((song, index) => `${index + 1}. ${song.title}`))
+            .setColor("#F8AA2A");
 
-        // Log to the console when a folder is removed
-            miMonitor.on("folderRemoved", function (folderPath) {
-            console.log("Folder Removed: " + folderPath);
-        });
-
-        // log to the console when a folder is added
-        miMonitor.on("folderAdded", function (folderPath) {
-            console.log(folderPath);
-        });
-
-        // Log to the console when a file is changed.
-        miMonitor.on("fileChanged", function (fileDetail, changes) {
-            console.log("File Changed: " + fileDetail.fullPath);
-            for (var key in changes) {
-                console.log("  + " + key + " changed...");
-                console.log("    - From: " + ((changes[key].baseValue instanceof Date) ? changes[key].baseValue.toISOString() : changes[key].baseValue));
-                console.log("    - To  : " + ((changes[key].comparedValue instanceof Date) ? changes[key].comparedValue.toISOString() : changes[key].comparedValue));
-            }
-        });
-
-        // log to the console when a file is added.
-        miMonitor.on("fileAdded", function (fileDetail) {
-            console.log("File Added: " + fileDetail.fullPath);
+        const splitDescription = splitMessage(description, { maxLength: 2048, char: '\n', prepend: '', append: '' });
+        splitDescription.forEach(async m => {
+            queueEmbed.setDescription(m);
+            message.channel.send(queueEmbed);
         });
 
     }
-
 };
