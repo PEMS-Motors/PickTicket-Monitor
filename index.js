@@ -39,7 +39,7 @@ client.on("message", async (message) => {
         const args = message.content.slice(PREFIX.length).trim().split(/ +/);
         const commandName = args.shift().toLowerCase();
 
-        const swearWords = ["shit", "fuck", "dog poop"];
+        const swearWords = ["shit", "fuck", "ass", "winans"];
         if (swearWords.some(word => message.content.includes(word))) {
             message.reply("Oh no you said a bad word!!!");
             // Or just do message.delete();
