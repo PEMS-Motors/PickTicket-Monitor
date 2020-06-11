@@ -18,7 +18,7 @@ module.exports = {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var miMonitor = new dirwatch.DirectoryWatcher("/home/bot/TestRoom", true);
+        var miMonitor = new dirwatch.DirectoryWatcher("/mnt/picktickets", false);
 
         // start the monitor and have it check for updates
         // every half second.
