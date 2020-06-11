@@ -1,17 +1,17 @@
-{
-  "name": "PickTicket Monitor",
-  "version": "0.0.1",
-  "description": "Monitors Warehouse Folders",
-  "main": "index.js",
-  "author": "TFinch",
-  "private": true,
-  "dependencies": {
-    "@discordjs/opus": "^0.3.2",
-    "pm2": "^2.10.2",
-    "discord.js": "^11.4.2",
-    "request-promise": "^4.2.4"
-  },
-  "scripts": {
-    "start": "node index.js"
+
+  {
+    "name": "DiscordBot",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Tfinch (MotoAcidic)",
+    "license": "MIT",
+    "dependencies": {
+      "pm2": "^2.10.2",
+      "discord.js": "^11.4.2",
+      "request-promise": "^4.2.4"
+    }
   }
-}

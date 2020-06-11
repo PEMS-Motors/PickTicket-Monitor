@@ -1,5 +1,4 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
-const { MI01A } = require("./config.json");
 
 module.exports = {
     name: "checkMI",
@@ -19,7 +18,7 @@ module.exports = {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var miMonitor = new dirwatch.DirectoryWatcher("File Path Here", true);
+        var miMonitor = new dirwatch.DirectoryWatcher("/home/bot/TestRoom", true);
 
         // start the monitor and have it check for updates
         // every half second.
@@ -69,7 +68,7 @@ module.exports = {
 
         // log to the console when a folder is added
         miMonitor.on("folderAdded", function (folderPath) {
-            console.log(folderPath); 
+            console.log(folderPath);
 
             message.channel.send({
                 embed: {
@@ -107,7 +106,7 @@ module.exports = {
                             name: "    - From: ",
                             value: ((changes[key].baseValue instanceof Date) ? changes[key].baseValue.toISOString() : changes[key].baseValue)
                         },
-                            {
+                        {
                             name: "    - To  : ",
                             value: ((changes[key].comparedValue instanceof Date) ? changes[key].comparedValue.toISOString() : changes[key].comparedValue)
                         }
@@ -118,6 +117,9 @@ module.exports = {
                         }
                     }
                 });
+                console.log("  + " + key + " changed...");
+                console.log("    - From: " + ((changes[key].baseValue instanceof Date) ? changes[key].baseValue.toISOString() : changes[key].baseValue));
+                console.log("    - To  : " + ((changes[key].comparedValue instanceof Date) ? changes[key].comparedValue.toISOString() : changes[key].comparedValue));
             }
 
         });
@@ -149,3 +151,5 @@ module.exports = {
 
     }
 };
+
+

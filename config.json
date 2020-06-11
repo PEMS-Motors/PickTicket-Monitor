@@ -1,25 +1,4 @@
 {
-  //Bot Token for Discord alerts
-  "TOKEN": "",
-  //Prefix needed to call commands
-  "PREFIX": "+",
-
-  //Below are channel ID for alerts by location
-  //These will be left blank for now unless we need to watch by location.
-  "MI": "xxx",
-  "CT": "xxx",
-  "CA": "xxx",
-  "NC": "xxx",
-  "MO": "xxx",
-  "TX": "xxx",
-  "TN": "xxx",
-  "IL": "xxx",
-  "FL": "xxx",
-
-  //Deleted Files Channel ID
-  "Deleted": "xxx",
-  //Most Recent Pick Ticket Channel ID
-  "MostRecent": "xxx",
-  //Most Recently Changed
-  "Changed": "xxx"
+  "TOKEN": "NzIwMDg5MDA2ODM4MTIwNTIw.XuEYsw.1701ADPeuWb3prcjzPuKYvm-0VE",
+  "PREFIX": "+"
 }
