@@ -24,106 +24,6 @@ module.exports = {
         // every half second.
         miMonitor.start(500);
 
-        // Log to the console when a file is removed
-        miMonitor.on("fileRemoved", function (filePath) {
-            console.log("File Deleted: " + filePath);
-
-            message.channel.send({
-                embed: {
-                    color: 0x2ecc71,
-                    title: "PickTicket Deleted",
-                    fields: [{
-                        name: "PickTicket:",
-                        value: filePath
-                    }
-                    ],
-                    timestamp: new Date(),
-                    footer: {
-                        text: "Current Time"
-                    }
-                }
-            });
-        });
-
-        // Log to the console when a folder is removed
-        miMonitor.on("folderRemoved", function (folderPath) {
-            console.log("Folder Removed: " + folderPath);
-
-            message.channel.send({
-                embed: {
-                    color: 0x2ecc71,
-                    title: "Folder Deleted",
-                    fields: [{
-                        name: "PickTicket Folder:",
-                        value: folderPath
-                    }
-                    ],
-                    timestamp: new Date(),
-                    footer: {
-                        text: "Current Time"
-                    }
-                }
-            });
-        });
-
-        // log to the console when a folder is added
-        miMonitor.on("folderAdded", function (folderPath) {
-            console.log(folderPath);
-
-            message.channel.send({
-                embed: {
-                    color: 0x2ecc71,
-                    title: "Folder Added",
-                    fields: [{
-                        name: "PickTicket Folder:",
-                        value: folderPath
-                    }
-                    ],
-                    timestamp: new Date(),
-                    footer: {
-                        text: "Current Time"
-                    }
-                }
-            });
-        });
-
-        // Log to the console when a file is changed.
-        miMonitor.on("fileChanged", function (fileDetail, changes) {
-            console.log("File Changed: " + fileDetail.fullPath);
-            for (var key in changes) {
-                console.log("  + " + key + " changed...");
-                console.log("    - From: " + ((changes[key].baseValue instanceof Date) ? changes[key].baseValue.toISOString() : changes[key].baseValue));
-                console.log("    - To  : " + ((changes[key].comparedValue instanceof Date) ? changes[key].comparedValue.toISOString() : changes[key].comparedValue));
-            }
-
-            for (var key in changes) {
-                message.channel.send({
-                    embed: {
-                        color: 0x2ecc71,
-                        title: "File Changed",
-                        description: "  + " + key + " changed...",
-                        fields: [{
-                            name: "    - From: ",
-                            value: ((changes[key].baseValue instanceof Date) ? changes[key].baseValue.toISOString() : changes[key].baseValue)
-                        },
-                        {
-                            name: "    - To  : ",
-                            value: ((changes[key].comparedValue instanceof Date) ? changes[key].comparedValue.toISOString() : changes[key].comparedValue)
-                        }
-                        ],
-                        timestamp: new Date(),
-                        footer: {
-                            text: "Current Time"
-                        }
-                    }
-                });
-                console.log("  + " + key + " changed...");
-                console.log("    - From: " + ((changes[key].baseValue instanceof Date) ? changes[key].baseValue.toISOString() : changes[key].baseValue));
-                console.log("    - To  : " + ((changes[key].comparedValue instanceof Date) ? changes[key].comparedValue.toISOString() : changes[key].comparedValue));
-            }
-
-        });
-
         // log to the console when a file is added.
         miMonitor.on("fileAdded", function (fileDetail) {
             console.log("File Added: " + fileDetail.fullPath);
@@ -146,6 +46,21 @@ module.exports = {
 
         });
 
+        message.channel.send({
+            embed: {
+                color: 0x2ecc71,
+                title: "MI Monitor Started ",
+                fields: [{
+                    name: "Pick Ticket Monitor has started watching :",
+                    value: miMonitor.root
+                }
+                ],
+                timestamp: new Date(),
+                footer: {
+                    text: "Current Time Status"
+                }
+            }
+        });
         // Let us know that directory monitoring is happening and where.
         console.log("Directory Monitoring of " + miMonitor.root + " has started");
 
