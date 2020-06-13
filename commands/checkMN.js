@@ -2,9 +2,9 @@ const { MessageEmbed, splitMessage } = require("discord.js");
 const config = './config.js';
 
 module.exports = {
-    name: "startct",
-    aliases: ['ct'],
-    description: "Check CT warehouse folders.",
+    name: "startmn",
+    aliases: ['mn'],
+    description: "Check MN warehouse folders.",
     execute(message) {
 
         // Imports / Requires
@@ -19,14 +19,14 @@ module.exports = {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var ctMonitor = new dirwatch.DirectoryWatcher("Z:\\08A-Processed", true);
+        var mnMonitor = new dirwatch.DirectoryWatcher("Z:\\07A-Processed", true);
 
         // start the monitor and have it check for updates
         // every half second.
-        ctMonitor.start(60000);
+        mnMonitor.start(60000);
         
         // Log to the console when a file is removed
-        ctMonitor.on("fileRemoved", function (filePath) {
+        mnMonitor.on("fileRemoved", function (filePath) {
             message.channel.send({
                 embed: {
                     color: 0x2ecc71,
@@ -46,7 +46,7 @@ module.exports = {
         });
 
         // Log to the console when a folder is removed
-        ctMonitor.on("folderRemoved", function (folderPath) {
+        mnMonitor.on("folderRemoved", function (folderPath) {
             message.channel.send({
                 embed: {
                     color: 0x2ecc71,
@@ -66,7 +66,7 @@ module.exports = {
         });
 
         // log to the console when a folder is added
-        ctMonitor.on("folderAdded", function (folderPath) {
+        mnMonitor.on("folderAdded", function (folderPath) {
             message.channel.send({
                 embed: {
                     color: 0x2ecc71,
@@ -86,7 +86,7 @@ module.exports = {
         });
 
         // Log to the console when a file is changed.
-        ctMonitor.on("fileChanged", function (fileDetail, changes) {
+        mnMonitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
                 message.channel.send({
                     embed: {
@@ -117,7 +117,7 @@ module.exports = {
         });
 
         // log to the console when a file is added.
-        ctMonitor.on("fileAdded", function (fileDetail) {            
+        mnMonitor.on("fileAdded", function (fileDetail) {            
             message.channel.send({
                 embed: {
                     color: 0x2ecc71,
@@ -139,10 +139,10 @@ module.exports = {
         message.channel.send({
             embed: {
                 color: 0x2ecc71,
-                title: "Monitoring Connecticut PickTicket Folder!",
+                title: "Monitoring Minnesota PickTicket Folder!",
                 fields: [{
                     name: "Monitoring mapped drive below!:",
-                    value: ctMonitor.root
+                    value: mnMonitor.root
                 }
                 ],
                 timestamp: new Date(),
@@ -152,7 +152,7 @@ module.exports = {
             }
         });
         // Let us know that directory monitoring is happening and where.
-        console.log("Directory Monitoring of " + ctMonitor.root + " has started");
+        console.log("Directory Monitoring of " + mnMonitor.root + " has started");
 
     }
 };

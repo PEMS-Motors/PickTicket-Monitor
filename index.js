@@ -1,7 +1,8 @@
 /**
  * Module Imports
  */
-const { Client, Collection } = require("discord.js");
+const { Client, Collection, Discord } = require("discord.js");
+const client2 = new Discord.Client()
 const { readdirSync } = require("fs");
 const { join } = require("path");
 const { TOKEN, PREFIX } = require("./config.json");
