@@ -1,13 +1,13 @@
 /**
  * Module Imports
  */
-const { Client, Collection, Discord } = require("discord.js");
-const client2 = new Discord.Client()
+const { Client, Collection} = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
 const { TOKEN, PREFIX } = require("./config.json");
 
-const client = new Client({ disableEveryone: true, disabledEvents: ["TYPING_START"] });
+const client = new Client();
+global.globalClient = client;
 
 client.login(TOKEN);
 client.commands = new Collection();

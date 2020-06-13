@@ -1,4 +1,5 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
+const channels = require('../channels.js');
 
 module.exports = {
     name: "startil",
@@ -8,6 +9,7 @@ module.exports = {
 
         // Imports / Requires
         var dirwatch = require("./DirectoryWatcher.js");
+        var ilChannel = globalClient.channels.get(channels.locations.IL);
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case
@@ -26,7 +28,7 @@ module.exports = {
 
         // Log to the console when a file is removed
         ilMonitor.on("fileRemoved", function (filePath) {
-            message.channel.send({
+            ilChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "PickTicket Deleted",
@@ -46,7 +48,7 @@ module.exports = {
 
         // Log to the console when a folder is removed
         ilMonitor.on("folderRemoved", function (folderPath) {
-            message.channel.send({
+            ilChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Deleted",
@@ -66,7 +68,7 @@ module.exports = {
 
         // log to the console when a folder is added
         ilMonitor.on("folderAdded", function (folderPath) {
-            message.channel.send({
+            ilChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Added",
@@ -87,7 +89,7 @@ module.exports = {
         // Log to the console when a file is changed.
         ilMonitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
-                message.channel.send({
+                ilChannel.send({
                     embed: {
                         color: 0x2ecc71,
                         title: "File Changed",
@@ -117,7 +119,7 @@ module.exports = {
 
         // log to the console when a file is added.
         ilMonitor.on("fileAdded", function (fileDetail) {            
-            message.channel.send({
+            ilChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "New PickTicket",
@@ -135,7 +137,7 @@ module.exports = {
             console.log("File Added: " + fileDetail.fullPath);
         });
 
-        message.channel.send({
+        ilChannel.send({
             embed: {
                 color: 0x2ecc71,
                 title: "Monitoring Illinois PickTicket Folder!",

@@ -1,6 +1,5 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
-const client2 = new Discord.Client()
-const config = './config.js';
+const channels = require('../channels.js');
 
 module.exports = {
     name: "startmi",
@@ -10,8 +9,7 @@ module.exports = {
 
         // Imports / Requires
         var dirwatch = require("./DirectoryWatcher.js");
-
-        var miChannel = client2.channels.get("720444977771053197")
+        var miChannel = globalClient.channels.get(channels.locations.MI);
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case

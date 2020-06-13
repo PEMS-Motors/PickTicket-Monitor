@@ -1,5 +1,5 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
-const config = './config.js';
+const channels = require('../channels.js');
 
 module.exports = {
     name: "startct",
@@ -9,6 +9,7 @@ module.exports = {
 
         // Imports / Requires
         var dirwatch = require("./DirectoryWatcher.js");
+        var ctChannel = globalClient.channels.get(channels.locations.CT);
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case
@@ -27,7 +28,7 @@ module.exports = {
         
         // Log to the console when a file is removed
         ctMonitor.on("fileRemoved", function (filePath) {
-            message.channel.send({
+            ctChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "PickTicket Deleted",
@@ -47,7 +48,7 @@ module.exports = {
 
         // Log to the console when a folder is removed
         ctMonitor.on("folderRemoved", function (folderPath) {
-            message.channel.send({
+            ctChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Deleted",
@@ -67,7 +68,7 @@ module.exports = {
 
         // log to the console when a folder is added
         ctMonitor.on("folderAdded", function (folderPath) {
-            message.channel.send({
+            ctChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Added",
@@ -88,7 +89,7 @@ module.exports = {
         // Log to the console when a file is changed.
         ctMonitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
-                message.channel.send({
+                ctChannel.send({
                     embed: {
                         color: 0x2ecc71,
                         title: "File Changed",
@@ -118,7 +119,7 @@ module.exports = {
 
         // log to the console when a file is added.
         ctMonitor.on("fileAdded", function (fileDetail) {            
-            message.channel.send({
+            ctChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "New PickTicket",
@@ -136,7 +137,7 @@ module.exports = {
             console.log("File Added: " + fileDetail.fullPath);
         });
 
-        message.channel.send({
+        ctChannel.send({
             embed: {
                 color: 0x2ecc71,
                 title: "Monitoring Connecticut PickTicket Folder!",
