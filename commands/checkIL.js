@@ -1,10 +1,9 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
-const config = './config.js';
 
 module.exports = {
-    name: "startmi",
-    aliases: ['mi'],
-    description: "Check MI warehouse folders.",
+    name: "startil",
+    aliases: ['il'],
+    description: "Check IL warehouse folders.",
     execute(message) {
 
         // Imports / Requires
@@ -19,14 +18,14 @@ module.exports = {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var miMonitor = new dirwatch.DirectoryWatcher("Z:\\01A-Processed", true);
+        var ilMonitor = new dirwatch.DirectoryWatcher("Z:\\02A-Processed", true);
 
         // start the monitor and have it check for updates
         // every half second.
-        miMonitor.start(60000);
-        
+        ilMonitor.start(60000);
+
         // Log to the console when a file is removed
-        miMonitor.on("fileRemoved", function (filePath) {
+        ilMonitor.on("fileRemoved", function (filePath) {
             message.channel.send({
                 embed: {
                     color: 0x2ecc71,
@@ -46,7 +45,7 @@ module.exports = {
         });
 
         // Log to the console when a folder is removed
-        miMonitor.on("folderRemoved", function (folderPath) {
+        ilMonitor.on("folderRemoved", function (folderPath) {
             message.channel.send({
                 embed: {
                     color: 0x2ecc71,
@@ -66,7 +65,7 @@ module.exports = {
         });
 
         // log to the console when a folder is added
-        miMonitor.on("folderAdded", function (folderPath) {
+        ilMonitor.on("folderAdded", function (folderPath) {
             message.channel.send({
                 embed: {
                     color: 0x2ecc71,
@@ -86,7 +85,7 @@ module.exports = {
         });
 
         // Log to the console when a file is changed.
-        miMonitor.on("fileChanged", function (fileDetail, changes) {
+        ilMonitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
                 message.channel.send({
                     embed: {
@@ -117,7 +116,7 @@ module.exports = {
         });
 
         // log to the console when a file is added.
-        miMonitor.on("fileAdded", function (fileDetail) {            
+        ilMonitor.on("fileAdded", function (fileDetail) {            
             message.channel.send({
                 embed: {
                     color: 0x2ecc71,
@@ -139,10 +138,10 @@ module.exports = {
         message.channel.send({
             embed: {
                 color: 0x2ecc71,
-                title: "Monitoring Michigan PickTicket Folder!",
+                title: "Monitoring Illinois PickTicket Folder!",
                 fields: [{
                     name: "Monitoring mapped drive below!:",
-                    value: miMonitor.root
+                    value: ilMonitor.root
                 }
                 ],
                 timestamp: new Date(),
@@ -152,7 +151,7 @@ module.exports = {
             }
         });
         // Let us know that directory monitoring is happening and where.
-        console.log("Directory Monitoring of " + miMonitor.root + " has started");
+        console.log("Directory Monitoring of " + ilMonitor.root + " has started");
 
     }
 };
