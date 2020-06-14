@@ -1,34 +1,25 @@
-/**
- * Module Imports
- */
-const { Client, Collection} = require("discord.js");
-const { readdirSync } = require("fs");
-const { join } = require("path");
-const { TOKEN, PREFIX } = require("./config.json");
+const fs = require('fs');
+const Discord = require('discord.js');
+const { prefix, token } = require('./config.json');
 
-const client = new Client();
+const client = new Discord.Client();
+client.commands = new Discord.Collection();
 global.globalClient = client;
-
-client.login(TOKEN);
-client.commands = new Collection();
-client.prefix = PREFIX;
 
 /**
  * Client Events
  */
 client.on("ready", () => {
     console.log(`${client.user.username} ready!`);
-    client.user.setActivity(`Swag | ${PREFIX}`);
+    client.user.setActivity(`Swag | ${prefix}`);
 });
+
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
 
-/**
- * Import all commands
- */
-const commandFiles = readdirSync(join(__dirname, "commands")).filter((file) => file.endsWith(".js"));
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
-    const command = require(join(__dirname, "commands", `${file}`));
+    const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
 }
 
@@ -36,8 +27,8 @@ client.on("message", async (message) => {
     if (message.author.bot) return;
     if (!message.guild) return;
 
-    if (message.content.startsWith(PREFIX)) {
-        const args = message.content.slice(PREFIX.length).trim().split(/ +/);
+    if (message.content.startsWith(prefix)) {
+        const args = message.content.slice(prefix.length).trim().split(/ +/);
         const commandName = args.shift().toLowerCase();
 
         const swearWords = ["shit", "fuck", "ass", "winans"];
@@ -60,3 +51,5 @@ client.on("message", async (message) => {
         }
     }
 });
+
+client.login(token);

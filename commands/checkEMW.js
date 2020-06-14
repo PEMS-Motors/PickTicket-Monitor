@@ -20,7 +20,7 @@ module.exports = {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var emwMonitor = new dirwatch.DirectoryWatcher("Z:\\EMW\01AA-Processed", true);
+        var emwMonitor = new dirwatch.DirectoryWatcher("Z:\\EMW\01A-Processed", true);
 
         // start the monitor and have it check for updates
         // every half second.

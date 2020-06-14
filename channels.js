@@ -1,5 +1,6 @@
 module.exports = {
     "locations": {
+        // The discord channel ID (Right click channel get ID)
         "MI": "720444977771053197",
         "IL": "721069243109605458",
         "NC": "721069874109087904",
@@ -13,5 +14,21 @@ module.exports = {
         "TN": "721192655060729896",
         "CSH": "721192723360514108",
         "EMW": "721192747217977345"
+    },
+    "liveLocation": {
+        // Enable warehouse means if the warehouse is active or has been shutdown (true / false)
+        "MI": "true",
+        "IL": "true",
+        "NC": "true",
+        "MO": "true",
+        "CA": "true",
+        "TX": "true",
+        "MN": "false",
+        "CT": "true",
+        "MD": "true",
+        "FL": "true",
+        "TN": "true",
+        "CSH": "true",
+        "EMW": "true"
     }
 }
