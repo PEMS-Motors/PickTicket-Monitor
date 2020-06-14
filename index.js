@@ -1,55 +1,45 @@
 const fs = require('fs');
 const Discord = require('discord.js');
+const Enmap = require("enmap");
 const config = require('./config.js');
-
 const client = new Discord.Client();
-client.commands = new Discord.Collection();
+
+// We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
+client.config = config;
+client.commands = new Enmap();
 global.globalClient = client;
 
-/**
- * Client Events
- */
 client.on("ready", () => {
-    console.log(`${client.user.username} ready!`);
-    client.user.setActivity(`Swag | ${config.prefix}`);
+    console.log(`${client.user.username}
+    has loaded correctly and is online!`);
+    client.user.setActivity(`PEMS | ${config.bot.prefix}`);
 });
 
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    client.commands.set(command.name, command);
-}
 
-client.on("message", async (message) => {
-    if (message.author.bot) return;
-    if (!message.guild) return;
-
-    if (message.content.startsWith(config.prefix)) {
-        const args = message.content.slice(prefix.length).trim().split(/ +/g);
-        const commandName = args.shift().toLowerCase();
-
-        const swearWords = ["shit", "fuck", "ass", "winans"];
-        if (swearWords.some(word => message.content.includes(word))) {
-            message.reply("Oh no bad work police is here!!!");
-
-        }
-
-        const command =
-            client.commands.get(commandName) ||
-            client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
-
-        if (!command) return;
-
-        try {
-            command.execute(message, args);
-        } catch (error) {
-            console.error(error);
-            message.reply("There was an error executing that command! Psssst learn to code my dude.").catch(console.error);
-        }
-    }
+/**
+ * Client Events
+ */
+fs.readdir("./events/", (err, files) => {
+    if (err) return console.error(err);
+    files.forEach(file => {
+        const event = require(`./events/${file}`);
+        let eventName = file.split(".")[0];
+        client.on(eventName, event.bind(null, client));
+    });
 });
 
-client.login(token);
+fs.readdir("./commands/", (err, files) => {
+    if (err) return console.error(err);
+    files.forEach(file => {
+        if (!file.endsWith(".js")) return;
+        let props = require(`./commands/${file}`);
+        let commandName = file.split(".")[0];
+        console.log(`Attempting to load command ${commandName}`);
+        client.commands.set(commandName, props);
+    });
+});
+
+client.login(config.bot.token);

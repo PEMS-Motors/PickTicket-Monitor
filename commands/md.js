@@ -1,15 +1,11 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
 const config = require('../config.js');
 
-module.exports = {
-    name: "startct",
-    aliases: ['ct'],
-    description: "Check CT warehouse folders.",
-    execute(message) {
+exports.run = (client, message, args) => {
 
         // Imports / Requires
-        var dirwatch = require("./DirectoryWatcher.js");
-        var ctChannel = globalClient.channels.get(config.locations.CT);
+        var dirwatch = require("../modules/DirectoryWatcher.js");
+        var mdChannel = globalClient.channels.get(config.locations.MD);
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case
@@ -20,15 +16,15 @@ module.exports = {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var ctMonitor = new dirwatch.DirectoryWatcher("Z:\\08A-Processed", true);
+        var mdMonitor = new dirwatch.DirectoryWatcher("Z:\\09A-Processed", true);
 
         // start the monitor and have it check for updates
         // every half second.
-        ctMonitor.start(60000);
+        mdMonitor.start(60000);
         
         // Log to the console when a file is removed
-        ctMonitor.on("fileRemoved", function (filePath) {
-            ctChannel.send({
+        mdMonitor.on("fileRemoved", function (filePath) {
+            mdChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "PickTicket Deleted",
@@ -47,8 +43,8 @@ module.exports = {
         });
 
         // Log to the console when a folder is removed
-        ctMonitor.on("folderRemoved", function (folderPath) {
-            ctChannel.send({
+        mdMonitor.on("folderRemoved", function (folderPath) {
+            mdChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Deleted",
@@ -67,8 +63,8 @@ module.exports = {
         });
 
         // log to the console when a folder is added
-        ctMonitor.on("folderAdded", function (folderPath) {
-            ctChannel.send({
+        mdMonitor.on("folderAdded", function (folderPath) {
+            mdChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Added",
@@ -87,9 +83,9 @@ module.exports = {
         });
 
         // Log to the console when a file is changed.
-        ctMonitor.on("fileChanged", function (fileDetail, changes) {
+        mdMonitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
-                ctChannel.send({
+                mdChannel.send({
                     embed: {
                         color: 0x2ecc71,
                         title: "File Changed",
@@ -118,8 +114,8 @@ module.exports = {
         });
 
         // log to the console when a file is added.
-        ctMonitor.on("fileAdded", function (fileDetail) {            
-            ctChannel.send({
+        mdMonitor.on("fileAdded", function (fileDetail) {            
+            mdChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "New PickTicket",
@@ -137,13 +133,13 @@ module.exports = {
             console.log("File Added: " + fileDetail.fullPath);
         });
 
-        ctChannel.send({
+        mdChannel.send({
             embed: {
                 color: 0x2ecc71,
-                title: "Monitoring Connecticut PickTicket Folder!",
+                title: "Monitoring Maryland PickTicket Folder!",
                 fields: [{
                     name: "Monitoring mapped drive below!:",
-                    value: ctMonitor.root
+                    value: mdMonitor.root
                 }
                 ],
                 timestamp: new Date(),
@@ -153,7 +149,7 @@ module.exports = {
             }
         });
         // Let us know that directory monitoring is happening and where.
-        console.log("Directory Monitoring of " + ctMonitor.root + " has started");
+        console.log("Directory Monitoring of " + mdMonitor.root + " has started");
 
     }
 };

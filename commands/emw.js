@@ -1,14 +1,10 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
 const config = require('../config.js');
 
-module.exports = {
-    name: "startemw",
-    aliases: ['emw'],
-    description: "Check EMW warehouse folders.",
-    execute(message) {
+exports.run = (client, message, args) => {
 
         // Imports / Requires
-        var dirwatch = require("./DirectoryWatcher.js");
+        var dirwatch = require("../modules/DirectoryWatcher.js");
         var emwChannel = globalClient.channels.get(config.locations.EMW);
 
         // Create a monitor object that will watch a directory

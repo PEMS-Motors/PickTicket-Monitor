@@ -10,8 +10,9 @@
    folderRemoved    : When a folder is removed (recursive mode only)
    scannedDirectory : When a directory has been scanned
    Current Version: 0.0.1
-                    December 19 2013 
+                    December 19 2013 - 2020
    Author(s): George H. Slaterpryce III
+   Modified: Tfinch (MotoAcidic)
    License: CPOL : The Code Project Open License 1.02
             http://www.codeproject.com/info/cpol10.aspx
    Copyright: (c) 2013 Slaterpryce Intellect Corp

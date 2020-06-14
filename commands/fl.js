@@ -1,15 +1,11 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
 const config = require('../config.js');
 
-module.exports = {
-    name: "startmi",
-    aliases: ['mi'],
-    description: "Check MI warehouse folders.",
-    execute(message) {
+exports.run = (client, message, args) => {
 
         // Imports / Requires
-        var dirwatch = require("./DirectoryWatcher.js");
-        var miChannel = globalClient.channels.get(config.locations.MI);
+        var dirwatch = require("../modules/DirectoryWatcher.js");
+        var flChannel = globalClient.channels.get(config.locations.FL);
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case
@@ -20,15 +16,15 @@ module.exports = {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var miMonitor = new dirwatch.DirectoryWatcher("Z:\\01A-Processed", true);
+        var flMonitor = new dirwatch.DirectoryWatcher("Z:\\10A-Processed", true);
 
         // start the monitor and have it check for updates
         // every half second.
-        miMonitor.start(60000);
-
+        flMonitor.start(60000);
+        
         // Log to the console when a file is removed
-        miMonitor.on("fileRemoved", function (filePath) {
-            miChannel.send({
+        flMonitor.on("fileRemoved", function (filePath) {
+            flChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "PickTicket Deleted",
@@ -47,8 +43,8 @@ module.exports = {
         });
 
         // Log to the console when a folder is removed
-        miMonitor.on("folderRemoved", function (folderPath) {
-            miChannel.send({
+        flMonitor.on("folderRemoved", function (folderPath) {
+            flChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Deleted",
@@ -67,8 +63,8 @@ module.exports = {
         });
 
         // log to the console when a folder is added
-        miMonitor.on("folderAdded", function (folderPath) {
-            miChannel.send({
+        flMonitor.on("folderAdded", function (folderPath) {
+            flChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Added",
@@ -87,9 +83,9 @@ module.exports = {
         });
 
         // Log to the console when a file is changed.
-        miMonitor.on("fileChanged", function (fileDetail, changes) {
+        flMonitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
-                miChannel.send({
+                flChannel.send({
                     embed: {
                         color: 0x2ecc71,
                         title: "File Changed",
@@ -118,8 +114,8 @@ module.exports = {
         });
 
         // log to the console when a file is added.
-        miMonitor.on("fileAdded", function (fileDetail) {
-            miChannel.send({
+        flMonitor.on("fileAdded", function (fileDetail) {            
+            flChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "New PickTicket",
@@ -137,13 +133,13 @@ module.exports = {
             console.log("File Added: " + fileDetail.fullPath);
         });
 
-        miChannel.send({
+        flChannel.send({
             embed: {
                 color: 0x2ecc71,
-                title: "Monitoring Michigan PickTicket Folder!",
+                title: "Monitoring Florida PickTicket Folder!",
                 fields: [{
                     name: "Monitoring mapped drive below!:",
-                    value: miMonitor.root
+                    value: flMonitor.root
                 }
                 ],
                 timestamp: new Date(),
@@ -153,7 +149,7 @@ module.exports = {
             }
         });
         // Let us know that directory monitoring is happening and where.
-        console.log("Directory Monitoring of " + miMonitor.root + " has started");
+        console.log("Directory Monitoring of " + flMonitor.root + " has started");
 
     }
 };

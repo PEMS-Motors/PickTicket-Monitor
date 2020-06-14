@@ -1,7 +1,8 @@
 module.exports = {
     "bot": {
         "token": "xx",
-        "prefix": "+"
+        "prefix": "+",
+        "ownerID": "202145535086297088"
     },
     "locations": {
         // The discord channel ID (Right click channel get ID)
@@ -20,6 +21,7 @@ module.exports = {
         "EMW": "721192747217977345"
     },
     "liveLocation": {
+        // TODO
         // Enable warehouse means if the warehouse is active or has been shutdown (true / false)
         "MI": "true",
         "IL": "true",
@@ -34,5 +36,9 @@ module.exports = {
         "TN": "true",
         "CSH": "true",
         "EMW": "true"
+    },
+    "channels": {
+        "generalToDo": "721760884346716211",
+        "help": "664878346575806490"
     }
 }

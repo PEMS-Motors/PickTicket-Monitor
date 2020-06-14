@@ -1,14 +1,10 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
 const config = require('../config.js');
 
-module.exports = {
-    name: "starttx",
-    aliases: ['tx'],
-    description: "Check TX warehouse folders.",
-    execute(message) {
+exports.run = (client, message, args) => {
 
         // Imports / Requires
-        var dirwatch = require("./DirectoryWatcher.js");
+        var dirwatch = require("../modules/DirectoryWatcher.js");
         var txChannel = globalClient.channels.get(config.locations.TX);
 
         // Create a monitor object that will watch a directory

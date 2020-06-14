@@ -1,14 +1,11 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
 const config = require('../config.js');
 
-module.exports = {
-    name: "startca",
-    aliases: ['ca'],
-    description: "Check CA warehouse folders.",
-    execute(message) {
+exports.run = (client, message, args) => {
+
 
         // Imports / Requires
-        var dirwatch = require("./DirectoryWatcher.js");
+        var dirwatch = require("../modules/DirectoryWatcher.js");
         var caChannel = globalClient.channels.get(config.locations.CA);
 
         // Create a monitor object that will watch a directory
@@ -155,7 +152,7 @@ module.exports = {
         // Let us know that directory monitoring is happening and where.
         console.log("Directory Monitoring of " + caMonitor.root + " has started");
 
-    }
+
 };
 
 

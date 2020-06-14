@@ -1,15 +1,11 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
 const config = require('../config.js');
 
-module.exports = {
-    name: "startcsh",
-    aliases: ['csh'],
-    description: "Check CSH warehouse folders.",
-    execute(message) {
+exports.run = (client, message, args) => {
 
         // Imports / Requires
-        var dirwatch = require("./DirectoryWatcher.js");
-        var cshChannel = globalClient.channels.get(config.locations.CSH);
+        var dirwatch = require("../modules/DirectoryWatcher.js");
+        var ctChannel = globalClient.channels.get(config.locations.CT);
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case
@@ -20,15 +16,15 @@ module.exports = {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var cshMonitor = new dirwatch.DirectoryWatcher("Z:\\CSH\01A-Processed", true);
+        var ctMonitor = new dirwatch.DirectoryWatcher("Z:\\08A-Processed", true);
 
         // start the monitor and have it check for updates
         // every half second.
-        cshMonitor.start(60000);
+        ctMonitor.start(60000);
         
         // Log to the console when a file is removed
-        cshMonitor.on("fileRemoved", function (filePath) {
-            cshChannel.send({
+        ctMonitor.on("fileRemoved", function (filePath) {
+            ctChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "PickTicket Deleted",
@@ -47,8 +43,8 @@ module.exports = {
         });
 
         // Log to the console when a folder is removed
-        cshMonitor.on("folderRemoved", function (folderPath) {
-            cshChannel.send({
+        ctMonitor.on("folderRemoved", function (folderPath) {
+            ctChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Deleted",
@@ -67,8 +63,8 @@ module.exports = {
         });
 
         // log to the console when a folder is added
-        cshMonitor.on("folderAdded", function (folderPath) {
-            cshChannel.send({
+        ctMonitor.on("folderAdded", function (folderPath) {
+            ctChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Added",
@@ -87,9 +83,9 @@ module.exports = {
         });
 
         // Log to the console when a file is changed.
-        cshMonitor.on("fileChanged", function (fileDetail, changes) {
+        ctMonitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
-                cshChannel.send({
+                ctChannel.send({
                     embed: {
                         color: 0x2ecc71,
                         title: "File Changed",
@@ -118,8 +114,8 @@ module.exports = {
         });
 
         // log to the console when a file is added.
-        cshMonitor.on("fileAdded", function (fileDetail) {            
-            cshChannel.send({
+        ctMonitor.on("fileAdded", function (fileDetail) {            
+            ctChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "New PickTicket",
@@ -137,13 +133,13 @@ module.exports = {
             console.log("File Added: " + fileDetail.fullPath);
         });
 
-        cshChannel.send({
+        ctChannel.send({
             embed: {
                 color: 0x2ecc71,
-                title: "Monitoring CSH PickTicket Folder!",
+                title: "Monitoring Connecticut PickTicket Folder!",
                 fields: [{
                     name: "Monitoring mapped drive below!:",
-                    value: cshMonitor.root
+                    value: ctMonitor.root
                 }
                 ],
                 timestamp: new Date(),
@@ -153,7 +149,7 @@ module.exports = {
             }
         });
         // Let us know that directory monitoring is happening and where.
-        console.log("Directory Monitoring of " + cshMonitor.root + " has started");
+        console.log("Directory Monitoring of " + ctMonitor.root + " has started");
 
     }
 };

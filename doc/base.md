@@ -8,7 +8,7 @@ module.exports = {
     execute(message) {
 
         // Imports / Requires
-        var dirwatch = require("./DirectoryWatcher.js");
+        var dirwatch = require("../modules/DirectoryWatcher.js");
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case
