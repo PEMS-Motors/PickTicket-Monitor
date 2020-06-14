@@ -1,4 +1,8 @@
 module.exports = {
+    "bot": {
+        "token": "xx",
+        "prefix": "+"
+    },
     "locations": {
         // The discord channel ID (Right click channel get ID)
         "MI": "720444977771053197",

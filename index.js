@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix, token } = require('./config.json');
+const config = require('./config.js');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -11,7 +11,7 @@ global.globalClient = client;
  */
 client.on("ready", () => {
     console.log(`${client.user.username} ready!`);
-    client.user.setActivity(`Swag | ${prefix}`);
+    client.user.setActivity(`Swag | ${config.prefix}`);
 });
 
 client.on("warn", (info) => console.log(info));
@@ -27,14 +27,14 @@ client.on("message", async (message) => {
     if (message.author.bot) return;
     if (!message.guild) return;
 
-    if (message.content.startsWith(prefix)) {
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
+    if (message.content.startsWith(config.prefix)) {
+        const args = message.content.slice(prefix.length).trim().split(/ +/g);
         const commandName = args.shift().toLowerCase();
 
         const swearWords = ["shit", "fuck", "ass", "winans"];
         if (swearWords.some(word => message.content.includes(word))) {
-            message.reply("Oh no you said a bad word!!!");
-            // Or just do message.delete();
+            message.reply("Oh no bad work police is here!!!");
+
         }
 
         const command =
@@ -47,7 +47,7 @@ client.on("message", async (message) => {
             command.execute(message, args);
         } catch (error) {
             console.error(error);
-            message.reply("There was an error executing that command.").catch(console.error);
+            message.reply("There was an error executing that command! Psssst learn to code my dude.").catch(console.error);
         }
     }
 });

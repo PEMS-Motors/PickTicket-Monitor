@@ -1,5 +1,5 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
-const channels = require('../channels.js');
+const config = require('../config.js');
 
 module.exports = {
     name: "startmi",
@@ -9,7 +9,7 @@ module.exports = {
 
         // Imports / Requires
         var dirwatch = require("./DirectoryWatcher.js");
-        var miChannel = globalClient.channels.get(channels.locations.MI);
+        var miChannel = globalClient.channels.get(config.locations.MI);
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case
@@ -25,7 +25,7 @@ module.exports = {
         // start the monitor and have it check for updates
         // every half second.
         miMonitor.start(60000);
-        
+
         // Log to the console when a file is removed
         miMonitor.on("fileRemoved", function (filePath) {
             miChannel.send({
@@ -118,7 +118,7 @@ module.exports = {
         });
 
         // log to the console when a file is added.
-        miMonitor.on("fileAdded", function (fileDetail) {            
+        miMonitor.on("fileAdded", function (fileDetail) {
             miChannel.send({
                 embed: {
                     color: 0x2ecc71,
