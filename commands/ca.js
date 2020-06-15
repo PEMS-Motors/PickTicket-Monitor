@@ -6,7 +6,9 @@ exports.run = (client, message, args) => {
 
         // Imports / Requires
         var dirwatch = require("../modules/DirectoryWatcher.js");
-        var caChannel = globalClient.channels.get(config.locations.CA);
+        var locationChannel = globalClient.channels.get(config.locations.CA);
+        var deletedChannel = globalClient.channels.get(config.channels.deleted);
+        var changedChannel = globalClient.channels.get(config.channels.recentlychanged);
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case
@@ -17,15 +19,15 @@ exports.run = (client, message, args) => {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var caMonitor = new dirwatch.DirectoryWatcher("Z:\\05A-Processed", true);
+        var Monitor = new dirwatch.DirectoryWatcher("Z:\\05A-Processed", true);
 
         // start the monitor and have it check for updates
         // every half second.
-        caMonitor.start(60000);
+        //Monitor.start(60000);
         
         // Log to the console when a file is removed
-        caMonitor.on("fileRemoved", function (filePath) {
-            caChannel.send({
+        Monitor.on("fileRemoved", function (filePath) {
+            deletedChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "PickTicket Deleted",
@@ -44,8 +46,8 @@ exports.run = (client, message, args) => {
         });
 
         // Log to the console when a folder is removed
-        caMonitor.on("folderRemoved", function (folderPath) {
-            caChannel.send({
+        Monitor.on("folderRemoved", function (folderPath) {
+            deletedChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Deleted",
@@ -64,8 +66,8 @@ exports.run = (client, message, args) => {
         });
 
         // log to the console when a folder is added
-        caMonitor.on("folderAdded", function (folderPath) {
-            caChannel.send({
+        Monitor.on("folderAdded", function (folderPath) {
+            locationChannel.send({
                 embed: {
                     color: 0x2ecc71,
                     title: "Folder Added",
@@ -84,9 +86,9 @@ exports.run = (client, message, args) => {
         });
 
         // Log to the console when a file is changed.
-        caMonitor.on("fileChanged", function (fileDetail, changes) {
+        Monitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
-                caChannel.send({
+                changedChannel.send({
                     embed: {
                         color: 0x2ecc71,
                         title: "File Changed",
@@ -115,32 +117,14 @@ exports.run = (client, message, args) => {
         });
 
         // log to the console when a file is added.
-        caMonitor.on("fileAdded", function (fileDetail) {            
-            caChannel.send({
-                embed: {
-                    color: 0x2ecc71,
-                    title: "New PickTicket",
-                    fields: [{
-                        name: "PickTicket:",
-                        value: fileDetail.fullPath
-                    }
-                    ],
-                    timestamp: new Date(),
-                    footer: {
-                        text: "Current Time Status"
-                    }
-                }
-            });
-            console.log("File Added: " + fileDetail.fullPath);
-        });
-
-        caChannel.send({
+    Monitor.on("fileAdded", function (fileDetail) {
+        locationChannel.send({
             embed: {
                 color: 0x2ecc71,
-                title: "Monitoring California PickTicket Folder!",
+                title: "New PickTicket",
                 fields: [{
-                    name: "Monitoring mapped drive below!:",
-                    value: caMonitor.root
+                    name: "PickTicket:",
+                    value: fileDetail.fullPath
                 }
                 ],
                 timestamp: new Date(),
@@ -149,10 +133,8 @@ exports.run = (client, message, args) => {
                 }
             }
         });
-        // Let us know that directory monitoring is happening and where.
-        console.log("Directory Monitoring of " + caMonitor.root + " has started");
-
-
+        console.log("File Added: " + fileDetail.fullPath);
+    });
 };
 
 
