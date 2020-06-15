@@ -133,4 +133,5 @@ exports.run = (client, message, args) => {
         });
         console.log("File Added: " + fileDetail.fullPath);
     });
+    console.log("Finished Scanning MN Folder!");
 };

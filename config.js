@@ -37,6 +37,21 @@ module.exports = {
         "CSH": "true",
         "EMW": "true"
     },
+    "filepaths": {
+        "MI": "Z:\\01A-Processed",
+        "IL": "Z:\\02A-Processed",
+        "NC": "Z:\\03A-Processed",
+        "MO": "Z:\\04A-Processed",
+        "CA": "Z:\\05A-Processed",
+        "TX": "Z:\\06A-Processed",
+        "MN": "Z:\\07A-Processed",
+        "CT": "Z:\\08A-Processed",
+        "MD": "Z:\\09A-Processed",
+        "FL": "Z:\\10A-Processed",
+        "TN": "Z:\\01A-Processed",
+        "CSH": "Z:\\CSH",
+        "EMW": "Z:\\EMW"
+    },
     "channels": {
         "generalToDo": "721760884346716211",
         "help": "664878346575806490",

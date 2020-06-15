@@ -23,7 +23,7 @@ exports.run = (client, message, args) => {
 
         // start the monitor and have it check for updates
         // every half second.
-        //Monitor.start(60000);
+        Monitor.start();
         
         // Log to the console when a file is removed
         Monitor.on("fileRemoved", function (filePath) {
@@ -135,6 +135,7 @@ exports.run = (client, message, args) => {
         });
         console.log("File Added: " + fileDetail.fullPath);
     });
+    console.log("Finished Scanning CA Folder!");
 };
 
 
