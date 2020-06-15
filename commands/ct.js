@@ -151,7 +151,4 @@ exports.run = (client, message, args) => {
         // Let us know that directory monitoring is happening and where.
         console.log("Directory Monitoring of " + ctMonitor.root + " has started");
 
-    }
 };
-
-

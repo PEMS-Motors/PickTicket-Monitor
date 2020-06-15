@@ -10,8 +10,7 @@ client.commands = new Enmap();
 global.globalClient = client;
 
 client.on("ready", () => {
-    console.log(`${client.user.username}
-    has loaded correctly and is online!`);
+    console.log(`${client.user.username} has loaded correctly and is online!`);
     client.user.setActivity(`PEMS | ${config.bot.prefix}`);
 });
 

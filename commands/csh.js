@@ -16,7 +16,7 @@ exports.run = (client, message, args) => {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var cshMonitor = new dirwatch.DirectoryWatcher("Z:\\CSH\01A-Processed", true);
+    var cshMonitor = new dirwatch.DirectoryWatcher("Z:\\CSH", true);
 
         // start the monitor and have it check for updates
         // every half second.
@@ -150,8 +150,4 @@ exports.run = (client, message, args) => {
         });
         // Let us know that directory monitoring is happening and where.
         console.log("Directory Monitoring of " + cshMonitor.root + " has started");
-
-    }
 };
-
-
