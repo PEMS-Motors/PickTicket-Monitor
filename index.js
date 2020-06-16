@@ -9,8 +9,7 @@ client.config = config;
 client.commands = new Enmap();
 global.globalClient = client;
 
-
-var cron = require('./modules/cron.js');
+// Bring over all location commands
 const ca = require('./commands/ca.js'); const csh = require('./commands/csh.js');
 const ct = require('./commands/ct.js'); const emw = require('./commands/emw.js');
 const fl = require('./commands/fl.js'); const il = require('./commands/il.js');
@@ -24,44 +23,53 @@ client.on("ready", () => {
     client.user.setActivity(`PEMS | ${config.bot.prefix}`);
     var statuschannel = client.channels.find(channel => channel.id === config.channels.status);
     
-            //Display alerts in channel and console in location is active
-    if (config.liveLocation.MI) { 
+    //Display alerts in channel and console in location is active
+
         statuschannel.send({
             embed: { color: 0x2ecc71, title: "Monitoring Has Started!",
                 fields: [
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.MI, inline: true },
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.IL, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.NC, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.MO, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.CA, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.TX, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.MN, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.CT, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.MD, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.FL, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.TN, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.CSH, inline: true},
-                    { name: "Monitoring mapped drive below!:", value: config.filepaths.EMW, inline: true}
+                    { name: "Michigan Warehouse!:", value: config.filepaths.MI, inline: true },
+                    { name: "Illinois Warehouse!:", value: config.filepaths.IL, inline: true},
+                    { name: "North Carolina Warehouse!:", value: config.filepaths.NC, inline: true},
+                    { name: "Missouri Warehouse!:", value: config.filepaths.MO, inline: true},
+                    { name: "California Warehouse!:", value: config.filepaths.CA, inline: true},
+                    { name: "Texas Warehouse!:", value: config.filepaths.TX, inline: true},
+                    { name: "Minnesota Warehouse!:", value: config.filepaths.MN, inline: true},
+                    { name: "Connecticut Warehouse!:", value: config.filepaths.CT, inline: true},
+                    { name: "Maryland Warehouse!:", value: config.filepaths.MD, inline: true},
+                    { name: "Florida Warehouse!:", value: config.filepaths.FL, inline: true},
+                    { name: "Tennessee Warehouse!:", value: config.filepaths.TN, inline: true},
+                    { name: "CSH Warehouse!:", value: config.filepaths.CSH, inline: true},
+                    { name: "EMW Warehouse!:", value: config.filepaths.EMW, inline: true}
                 ],
                 timestamp: new Date(), footer: { text: "Current Time Status" }}
         });
         console.log("Directory Monitoring of " + config.filepaths.MI + " has started");
+        mi.command_mi(0);
         console.log("Directory Monitoring of " + config.filepaths.IL + " has started");
+        il.command_il(0);
         console.log("Directory Monitoring of " + config.filepaths.NC + " has started");
+        nc.command_nc(0);
         console.log("Directory Monitoring of " + config.filepaths.MO + " has started");
+        mo.command_mo(0);
         console.log("Directory Monitoring of " + config.filepaths.CA + " has started");
+        ca.command_ca(0);
         console.log("Directory Monitoring of " + config.filepaths.TX + " has started");
+        tx.command_tx(0);
         console.log("Directory Monitoring of " + config.filepaths.MN + " has started");
+        mn.command_mn(0);
         console.log("Directory Monitoring of " + config.filepaths.CT + " has started");
+        ct.command_ct(0);
         console.log("Directory Monitoring of " + config.filepaths.MD + " has started");
+        md.command_md(0);
         console.log("Directory Monitoring of " + config.filepaths.FL + " has started");
+        fl.command_fl(0);
         console.log("Directory Monitoring of " + config.filepaths.TN + " has started");
+        tn.command_tn(0);
         console.log("Directory Monitoring of " + config.filepaths.CSH + " has started");
-        console.log("Directory Monitoring of " + config.filepaths.EMW + " has started");
-    }
-   /* ca.run; csh.run(0); ct.run(0); emw.run(0); fl.run(0); il.run(0);
-    md.run(0); mi.run(0); mn.run(0); mo.run(0); nc.run(0); tn.run(0); tx.run(0);*/
-    
+        csh.command_csh(0);
+        console.log("Directory Monitoring of " + config.filepaths.EMW + " has started"); 
+        emw.command_emw(0);
 });
 
 client.on("warn", (info) => console.log(info));

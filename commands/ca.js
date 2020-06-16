@@ -1,12 +1,11 @@
-const { MessageEmbed, splitMessage } = require("discord.js");
 const config = require('../config.js');
 
-exports.run = (client, message, args) => {
-
-
+module.exports = {
+    command_ca: function () {
         // Imports / Requires
         var dirwatch = require("../modules/DirectoryWatcher.js");
         var locationChannel = globalClient.channels.get(config.locations.CA);
+        var recentChannel = globalClient.channels.get(config.channels.mostrecent);
         var deletedChannel = globalClient.channels.get(config.channels.deleted);
         var changedChannel = globalClient.channels.get(config.channels.recentlychanged);
 
@@ -19,12 +18,12 @@ exports.run = (client, message, args) => {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var Monitor = new dirwatch.DirectoryWatcher("Z:\\05A-Processed", true);
+        var Monitor = new dirwatch.DirectoryWatcher(config.filepaths.CA, true);
 
         // start the monitor and have it check for updates
         // every 60 seconds.
         Monitor.start(60000);
-        
+
         // Log to the console when a file is removed
         Monitor.on("fileRemoved", function (filePath) {
             deletedChannel.send({
@@ -92,7 +91,7 @@ exports.run = (client, message, args) => {
                     embed: {
                         color: 0x2ecc71,
                         title: "File Changed",
-                        description: "  + " + key + " changed...",
+                        description: fileDetail.fullPath,
                         fields: [{
                             name: "    - From: ",
                             value: ((changes[key].baseValue instanceof Date) ? changes[key].baseValue.toISOString() : changes[key].baseValue)
@@ -117,25 +116,40 @@ exports.run = (client, message, args) => {
         });
 
         // log to the console when a file is added.
-    Monitor.on("fileAdded", function (fileDetail) {
-        locationChannel.send({
-            embed: {
-                color: 0x2ecc71,
-                title: "New PickTicket",
-                fields: [{
-                    name: "PickTicket:",
-                    value: fileDetail.fullPath
+        Monitor.on("fileAdded", function (fileDetail) {
+            locationChannel.send({
+                embed: {
+                    color: 0x2ecc71,
+                    title: "New PickTicket",
+                    fields: [{
+                        name: "PickTicket:",
+                        value: fileDetail.fullPath
+                    }
+                    ],
+                    timestamp: new Date(),
+                    footer: {
+                        text: "Current Time Status"
+                    }
                 }
-                ],
-                timestamp: new Date(),
-                footer: {
-                    text: "Current Time Status"
+            });
+            recentChannel.send({
+                embed: {
+                    color: 0x2ecc71,
+                    title: "New PickTicket",
+                    fields: [{
+                        name: "PickTicket:",
+                        value: fileDetail.fullPath
+                    }
+                    ],
+                    timestamp: new Date(),
+                    footer: {
+                        text: "Current Time Status"
+                    }
                 }
-            }
+            });
+            console.log("File Added: " + fileDetail.fullPath);
         });
-        console.log("File Added: " + fileDetail.fullPath);
-    });
-    console.log("Finished Scanning CA Folder!");
+
+        console.log("CA Scanning has started");
+    }
 };
-
-
