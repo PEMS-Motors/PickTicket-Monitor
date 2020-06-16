@@ -20,8 +20,8 @@ exports.run = (client, message, args) => {
     var Monitor = new dirwatch.DirectoryWatcher("Z:\\EMW", true);
 
     // start the monitor and have it check for updates
-    // every half second.
-    //Monitor.start(60000);
+    // every 60 seconds.
+    Monitor.start(60000);
 
     // Log to the console when a file is removed
     Monitor.on("fileRemoved", function (filePath) {

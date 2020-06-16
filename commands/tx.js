@@ -17,11 +17,11 @@ exports.run = (client, message, args) => {
     // you can monitor only a single folder and none of its child
     // directories by simply changing the recursive parameter to
     // to false
-    var Monitor = new dirwatch.DirectoryWatcher("Z:\\06AA-Processed", true);
+    var Monitor = new dirwatch.DirectoryWatcher("Z:\\06A-Processed", true);
 
     // start the monitor and have it check for updates
-    // every half second.
-    //Monitor.start(60000);
+    // every 60 seconds.
+    Monitor.start(60000);
 
     // Log to the console when a file is removed
     Monitor.on("fileRemoved", function (filePath) {

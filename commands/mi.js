@@ -1,7 +1,10 @@
 const { MessageEmbed, splitMessage } = require("discord.js");
 const config = require('../config.js');
+const Discord = require('discord.js');
+const client = new Discord.Client();
 
-exports.run = (client, message, args) => {
+module.exports = {
+    command_mi: function(){
     // Imports / Requires
     var dirwatch = require("../modules/DirectoryWatcher.js");
     var locationChannel = globalClient.channels.get(config.locations.MI);
@@ -20,8 +23,8 @@ exports.run = (client, message, args) => {
     var Monitor = new dirwatch.DirectoryWatcher("Z:\\01A-Processed", true);
 
     // start the monitor and have it check for updates
-    // every half second.
-    Monitor.start(1);
+    // every 60 seconds.
+    Monitor.start(2000);
 
     // Log to the console when a file is removed
     Monitor.on("fileRemoved", function (filePath) {
@@ -135,4 +138,5 @@ exports.run = (client, message, args) => {
     });
     Monitor.stop();
     console.log("Finished Scanning MI Folder!");
-};
+    }
+});
