@@ -4,27 +4,29 @@ const Enmap = require("enmap");
 const config = require('./config.js');
 const client = new Discord.Client();
 
-// We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
 client.config = config;
 client.commands = new Enmap();
 global.globalClient = client;
 
-// Bring over all location commands
+/*****************************************************
+ *             Bring Over Location Commands          *
+ ****************************************************/
 const ca = require('./commands/ca.js'); const csh = require('./commands/csh.js');
 const ct = require('./commands/ct.js'); const emw = require('./commands/emw.js');
 const fl = require('./commands/fl.js'); const il = require('./commands/il.js');
 const md = require('./commands/md.js'); const mi = require('./commands/mi.js');
 const mn = require('./commands/mn.js'); const mo = require('./commands/mo.js');
 const nc = require('./commands/nc.js'); const tn = require('./commands/tn.js');
-const tx = require('./commands/tx.js');
+const tx = require('./commands/tx.js'); //const time = require('./commands/checkTime.js');
 
+
+/*****************************************************
+ *             Start Scanning Folders                *
+ ****************************************************/
 client.on("ready", () => {
-    console.log(`${client.user.username} has loaded correctly and is online!`);
     client.user.setActivity(`PEMS | ${config.bot.prefix}`);
     var statuschannel = client.channels.find(channel => channel.id === config.channels.status);
-    
-    //Display alerts in channel and console in location is active
-
+    // Send to discord the folders we are going to scan!
         statuschannel.send({
             embed: { color: 0x2ecc71, title: "Monitoring Has Started!",
                 fields: [
@@ -44,41 +46,48 @@ client.on("ready", () => {
                 ],
                 timestamp: new Date(), footer: { text: "Current Time Status" }}
         });
-        console.log("Directory Monitoring of " + config.filepaths.MI + " has started");
-        mi.command_mi(0);
-        console.log("Directory Monitoring of " + config.filepaths.IL + " has started");
-        il.command_il(0);
-        console.log("Directory Monitoring of " + config.filepaths.NC + " has started");
-        nc.command_nc(0);
-        console.log("Directory Monitoring of " + config.filepaths.MO + " has started");
-        mo.command_mo(0);
-        console.log("Directory Monitoring of " + config.filepaths.CA + " has started");
-        ca.command_ca(0);
-        console.log("Directory Monitoring of " + config.filepaths.TX + " has started");
-        tx.command_tx(0);
-        console.log("Directory Monitoring of " + config.filepaths.MN + " has started");
-        mn.command_mn(0);
-        console.log("Directory Monitoring of " + config.filepaths.CT + " has started");
-        ct.command_ct(0);
-        console.log("Directory Monitoring of " + config.filepaths.MD + " has started");
-        md.command_md(0);
-        console.log("Directory Monitoring of " + config.filepaths.FL + " has started");
-        fl.command_fl(0);
-        console.log("Directory Monitoring of " + config.filepaths.TN + " has started");
-        tn.command_tn(0);
-        console.log("Directory Monitoring of " + config.filepaths.CSH + " has started");
-        csh.command_csh(0);
-        console.log("Directory Monitoring of " + config.filepaths.EMW + " has started"); 
-        emw.command_emw(0);
+        // Log to console the actual path we are starting to scan then start 
+        // To scan that folder after.
+        console.log("Going to Monitor " + config.filepaths.MI); mi.command_mi(0);      
+        console.log("Going to Monitor " + config.filepaths.IL); il.command_il(0);  
+        console.log("Going to Monitor " + config.filepaths.NC); nc.command_nc(0);
+        console.log("Going to Monitor " + config.filepaths.MO); mo.command_mo(0);   
+        console.log("Going to Monitor " + config.filepaths.CA); ca.command_ca(0);   
+        console.log("Going to Monitor " + config.filepaths.TX); tx.command_tx(0);
+        console.log("Going to Monitor " + config.filepaths.MN); mn.command_mn(0);
+        console.log("Going to Monitor " + config.filepaths.CT); ct.command_ct(0);   
+        console.log("Going to Monitor " + config.filepaths.MD); md.command_md(0);   
+        console.log("Going to Monitor " + config.filepaths.FL); fl.command_fl(0);
+        console.log("Going to Monitor " + config.filepaths.TN); tn.command_tn(0); 
+        console.log("Going to Monitor " + config.filepaths.CSH); csh.command_csh(0);  
+        console.log("Going to Monitor " + config.filepaths.EMW); emw.command_emw(0);
+        console.log(`${client.user.username} has loaded correctly and is online!`);
 });
 
-client.on("warn", (info) => console.log(info));
-client.on("error", console.error);
+/*****************************************************
+ *             Collect Last PickTicket               *
+ ****************************************************/
+/*client.on('message', message => {
+    // Bring over channels used
+    var botspamChannel = client.channels.find(channel => channel.id === config.channels.botspam);
+    var mostrecentChannel = client.channels.find(channel => channel.id === config.channels.mostrecent);
+
+        
+        let filter = m => true;
+        let collector = new Discord.MessageCollector(mostrecentChannel, filter, 1);
+        let counter = 0;
+        collector.on('collect', (message, col) => {
+            console.log("Message Collected:" + message.timestamp);
+            botspamChannel.send("Message Collected:" + message.timestamp);
+        });
+    
+
+});*/
 
 
-/**
- * Client Events
- */
+/*****************************************************
+ *                  Client Events                    *
+ ****************************************************/
 fs.readdir("./events/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
@@ -100,4 +109,3 @@ fs.readdir("./commands/", (err, files) => {
 });
 
 client.login(config.bot.token);
-//cron.cron_startall();
