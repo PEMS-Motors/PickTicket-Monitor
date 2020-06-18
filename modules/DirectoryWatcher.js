@@ -393,6 +393,8 @@ var DirectoryWatcher = function (root, recursive) {
         clearTimeout(self.timer);
     };
 
+    console.timeLog("PickTicket Timer");
+
 };
 
 // Inherit the Event Emitter

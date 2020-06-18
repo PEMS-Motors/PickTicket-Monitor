@@ -60,7 +60,7 @@ module.exports = {
                         text: "Current Time"
                     }
                 }
-            });
+            });            
             console.log("Folder Removed: " + folderPath);
         });
 

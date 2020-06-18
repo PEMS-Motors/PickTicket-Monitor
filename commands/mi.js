@@ -147,6 +147,7 @@ module.exports = {
                     }
                 }
             });
+            console.timeEnd("PickTicket Timer!");
             console.log("File Added: " + fileDetail.fullPath);
         });
 

@@ -62,6 +62,7 @@ client.on("ready", () => {
         console.log("Going to Monitor " + config.filepaths.CSH); csh.command_csh(0);  
         console.log("Going to Monitor " + config.filepaths.EMW); emw.command_emw(0);
         console.log(`${client.user.username} has loaded correctly and is online!`);
+        console.time("PickTicket Timer!");
 });
 
 /*****************************************************
