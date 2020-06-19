@@ -2,18 +2,20 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const Enmap = require("enmap");
 const config = require('./config.js');
+const cron = require('./modules/cron.js');
+const sendEmail = require('./modules/email.js');
 const client = new Discord.Client();
-const PickTicketStart = new Date();
 
 client.config = config;
 client.commands = new Enmap();
 
+// Start email timer
+var startEmailTimer = sendEmail.command_sendEmail;
+
 // Set some globals to call in other files
 global.globalClient = client;
-global.globalStartTime = PickTicketStart;
+global.globalTimer = setTimeout(startEmailTimer, 180000); // 15m timer to trigger alert email
 
-// See how long it takes to launch the application
-console.time("PickTicket Timer");
 
 /*****************************************************
  *             Bring Over Location Commands          *
@@ -24,7 +26,7 @@ const fl = require('./commands/fl.js'); const il = require('./commands/il.js');
 const md = require('./commands/md.js'); const mi = require('./commands/mi.js');
 const mn = require('./commands/mn.js'); const mo = require('./commands/mo.js');
 const nc = require('./commands/nc.js'); const tn = require('./commands/tn.js');
-const tx = require('./commands/tx.js'); //const time = require('./commands/checkTime.js');
+const tx = require('./commands/tx.js'); 
 
 /*****************************************************
  *             Start Scanning Folders                *
@@ -71,7 +73,6 @@ const tx = require('./commands/tx.js'); //const time = require('./commands/check
         console.log("Started to Monitor " + config.filepaths.CSH); csh.command_csh(0);
         console.log("Started to Monitor " + config.filepaths.EMW); emw.command_emw(0);
         console.log(`${client.user.username} has loaded correctly and is online!`);
-        console.log('Pick Ticket Monitor Started: ' + PickTicketStart.getSeconds() + ' seconds ago!');
  });
 
 /*****************************************************
@@ -119,3 +120,4 @@ fs.readdir("./commands/", (err, files) => {
 });
 
 client.login(config.bot.token);
+//cron.cron_check_time();

@@ -1,13 +1,15 @@
 const config = require('../config.js');
+const sendEmail = require('../modules/email.js');
 
 module.exports = {
-    command_mi: function () {
-        // Imports / Requires
+    command_mi: function () {        
         var dirwatch = require("../modules/DirectoryWatcher.js");
+        var startEmailTimer = sendEmail.command_sendEmail;
         var locationChannel = globalClient.channels.get(config.locations.MI);
         var recentChannel = globalClient.channels.get(config.channels.mostrecent);
         var deletedChannel = globalClient.channels.get(config.channels.deleted);
         var changedChannel = globalClient.channels.get(config.channels.recentlychanged);
+
 
         // Create a monitor object that will watch a directory
         // and all it's sub-directories (recursive) in this case
@@ -147,9 +149,11 @@ module.exports = {
                     }
                 }
             });
-            console.timeEnd("PickTicket Timer");
+            clearTimeout(globalTimer);
+            console.log('Just reset the Email timer back to 0');
             console.log("File Added: " + fileDetail.fullPath);
-            console.time("PickTicket Timer");
+            global.globalTimer = setTimeout(startEmailTimer, 180000); // 15m timer to trigger alert email
+            console.log('Just started a new 15m Timer!');
         });
 
         console.log("MI Scanning has started");

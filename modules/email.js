@@ -1,4 +1,28 @@
-const { MessageEmbed, splitMessage } = require("discord.js");
+const restartTimer = require('./restartTimer');
+
+module.exports = {
+    command_sendEmail: function () {      
+        console.log("PICK TICKETS HAVENT PRINTED IN 3 MINUTES!");
+        restartTimer.command_restartTimer(0);
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*const { MessageEmbed, splitMessage } = require("discord.js");
 const config = require('../config.js');
 const nodemailer = require("nodemailer");
 
@@ -29,6 +53,6 @@ exports.run = (client, message, args) => {
         }
     });
 
-};
+};*/
 
 

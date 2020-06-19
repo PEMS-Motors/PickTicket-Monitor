@@ -147,9 +147,9 @@ module.exports = {
                     }
                 }
             });
-            console.timeEnd("PickTicket Timer");
+            //console.timeEnd("PickTicket Timer");
             console.log("File Added: " + fileDetail.fullPath);
-            console.time("PickTicket Timer");
+            //console.time("PickTicket Timer");
         });
 
         console.log("CSH Scanning has started");
