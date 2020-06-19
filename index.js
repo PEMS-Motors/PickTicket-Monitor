@@ -3,10 +3,17 @@ const Discord = require('discord.js');
 const Enmap = require("enmap");
 const config = require('./config.js');
 const client = new Discord.Client();
+const PickTicketStart = new Date();
 
 client.config = config;
 client.commands = new Enmap();
+
+// Set some globals to call in other files
 global.globalClient = client;
+global.globalStartTime = PickTicketStart;
+
+// See how long it takes to launch the application
+console.time("PickTicket Timer");
 
 /*****************************************************
  *             Bring Over Location Commands          *
@@ -19,51 +26,53 @@ const mn = require('./commands/mn.js'); const mo = require('./commands/mo.js');
 const nc = require('./commands/nc.js'); const tn = require('./commands/tn.js');
 const tx = require('./commands/tx.js'); //const time = require('./commands/checkTime.js');
 
-
 /*****************************************************
  *             Start Scanning Folders                *
  ****************************************************/
-client.on("ready", () => {
-    client.user.setActivity(`PEMS | ${config.bot.prefix}`);
-    var statuschannel = client.channels.find(channel => channel.id === config.channels.status);
-    // Send to discord the folders we are going to scan!
+
+ client.on("ready", () => {
+        client.user.setActivity(`PEMS | ${config.bot.prefix}`);
+        var statuschannel = client.channels.find(channel => channel.id === config.channels.status);
+        // Send to discord the folders we are going to scan!
         statuschannel.send({
-            embed: { color: 0x2ecc71, title: "Monitoring Has Started!",
+            embed: {
+                color: 0x2ecc71, title: "Monitoring Has Started!",
                 fields: [
                     { name: "Michigan Warehouse!:", value: config.filepaths.MI, inline: true },
-                    { name: "Illinois Warehouse!:", value: config.filepaths.IL, inline: true},
-                    { name: "North Carolina Warehouse!:", value: config.filepaths.NC, inline: true},
-                    { name: "Missouri Warehouse!:", value: config.filepaths.MO, inline: true},
-                    { name: "California Warehouse!:", value: config.filepaths.CA, inline: true},
-                    { name: "Texas Warehouse!:", value: config.filepaths.TX, inline: true},
-                    { name: "Minnesota Warehouse!:", value: config.filepaths.MN, inline: true},
-                    { name: "Connecticut Warehouse!:", value: config.filepaths.CT, inline: true},
-                    { name: "Maryland Warehouse!:", value: config.filepaths.MD, inline: true},
-                    { name: "Florida Warehouse!:", value: config.filepaths.FL, inline: true},
-                    { name: "Tennessee Warehouse!:", value: config.filepaths.TN, inline: true},
-                    { name: "CSH Warehouse!:", value: config.filepaths.CSH, inline: true},
-                    { name: "EMW Warehouse!:", value: config.filepaths.EMW, inline: true}
+                    { name: "Illinois Warehouse!:", value: config.filepaths.IL, inline: true },
+                    { name: "North Carolina Warehouse!:", value: config.filepaths.NC, inline: true },
+                    { name: "Missouri Warehouse!:", value: config.filepaths.MO, inline: true },
+                    { name: "California Warehouse!:", value: config.filepaths.CA, inline: true },
+                    { name: "Texas Warehouse!:", value: config.filepaths.TX, inline: true },
+                    { name: "Minnesota Warehouse!:", value: config.filepaths.MN, inline: true },
+                    { name: "Connecticut Warehouse!:", value: config.filepaths.CT, inline: true },
+                    { name: "Maryland Warehouse!:", value: config.filepaths.MD, inline: true },
+                    { name: "Florida Warehouse!:", value: config.filepaths.FL, inline: true },
+                    { name: "Tennessee Warehouse!:", value: config.filepaths.TN, inline: true },
+                    { name: "CSH Warehouse!:", value: config.filepaths.CSH, inline: true },
+                    { name: "EMW Warehouse!:", value: config.filepaths.EMW, inline: true }
                 ],
-                timestamp: new Date(), footer: { text: "Current Time Status" }}
+                timestamp: new Date().getTime(), footer: { text: "Current Time Status" }
+            }
         });
         // Log to console the actual path we are starting to scan then start 
         // To scan that folder after.
-        console.log("Going to Monitor " + config.filepaths.MI); mi.command_mi(0);      
-        console.log("Going to Monitor " + config.filepaths.IL); il.command_il(0);  
-        console.log("Going to Monitor " + config.filepaths.NC); nc.command_nc(0);
-        console.log("Going to Monitor " + config.filepaths.MO); mo.command_mo(0);   
-        console.log("Going to Monitor " + config.filepaths.CA); ca.command_ca(0);   
-        console.log("Going to Monitor " + config.filepaths.TX); tx.command_tx(0);
-        console.log("Going to Monitor " + config.filepaths.MN); mn.command_mn(0);
-        console.log("Going to Monitor " + config.filepaths.CT); ct.command_ct(0);   
-        console.log("Going to Monitor " + config.filepaths.MD); md.command_md(0);   
-        console.log("Going to Monitor " + config.filepaths.FL); fl.command_fl(0);
-        console.log("Going to Monitor " + config.filepaths.TN); tn.command_tn(0); 
-        console.log("Going to Monitor " + config.filepaths.CSH); csh.command_csh(0);  
-        console.log("Going to Monitor " + config.filepaths.EMW); emw.command_emw(0);
+        console.log("Started to Monitor " + config.filepaths.MI); mi.command_mi(0);
+        console.log("Started to Monitor " + config.filepaths.IL); il.command_il(0);
+        console.log("Started to Monitor " + config.filepaths.NC); nc.command_nc(0);
+        console.log("Started to Monitor " + config.filepaths.MO); mo.command_mo(0);
+        console.log("Started to Monitor " + config.filepaths.CA); ca.command_ca(0);
+        console.log("Started to Monitor " + config.filepaths.TX); tx.command_tx(0);
+        console.log("Started to Monitor " + config.filepaths.MN); mn.command_mn(0);
+        console.log("Started to Monitor " + config.filepaths.CT); ct.command_ct(0);
+        console.log("Started to Monitor " + config.filepaths.MD); md.command_md(0);
+        console.log("Started to Monitor " + config.filepaths.FL); fl.command_fl(0);
+        console.log("Started to Monitor " + config.filepaths.TN); tn.command_tn(0);
+        console.log("Started to Monitor " + config.filepaths.CSH); csh.command_csh(0);
+        console.log("Started to Monitor " + config.filepaths.EMW); emw.command_emw(0);
         console.log(`${client.user.username} has loaded correctly and is online!`);
-        console.time("PickTicket Timer!");
-});
+        console.log('Pick Ticket Monitor Started: ' + PickTicketStart.getSeconds() + ' seconds ago!');
+ });
 
 /*****************************************************
  *             Collect Last PickTicket               *
