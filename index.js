@@ -11,12 +11,13 @@ client.commands = new Enmap();
 
 // Start email timer
 var startEmailTimer = sendEmail.command_sendEmail;
-
 // Set some globals to call in other files
 global.globalClient = client;
-global.globalTimer = setTimeout(startEmailTimer, 180000); // 15m timer to trigger alert email
-
-
+global.globalTimer = setTimeout(startEmailTimer, 5000); // 15m timer to trigger alert email
+// Restart the timer after it reaches the end
+restartTimer = function () {
+    global.globalTimer = setTimeout(startEmailTimer, 5000); // 15m timer to trigger alert email
+};
 /*****************************************************
  *             Bring Over Location Commands          *
  ****************************************************/

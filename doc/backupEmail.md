@@ -1,4 +1,4 @@
-const config = require('../config.js');
+﻿const config = require('../config.js');
 const nodemailer = require("nodemailer");
 const index = require('../index.js');
 
@@ -59,7 +59,7 @@ module.exports = {
                     to: 'Nodemailer <example@nodemailer.com>',
 
                     // Subject of the message
-                    subject: 'Nodemailer is unicode friendly ?' + Date.now(),
+                    subject: 'Nodemailer is unicode friendly ✔' + Date.now(),
 
                     // plaintext body
                     text: 'Hello to myself!',
