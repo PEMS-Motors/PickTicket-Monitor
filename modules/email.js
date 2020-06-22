@@ -1,10 +1,9 @@
 const config = require('../config.js');
 const nodemailer = require("nodemailer");
-const index = require('../index.js');
 
 module.exports = {
     command_sendEmail: function emailAlert() { 
-
+        
         var weekday = ['Sunday', 'Monday', 'Tuesdat', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][new Date().getDay()];
 
         if (weekday === 'Saturday' || weekday === 'Sunday') {
@@ -13,85 +12,49 @@ module.exports = {
 
             // Restart the timer since its the weekend
             var weekendTimer = emailAlert;
-            global.globalTimer = setTimeout(weekendTimer, 5000);
+            global.globalTimer = setTimeout(weekendTimer, 1800000); // 30 mins
             console.log("Restarted the timer since its the weekend and we dont like spam");
         }else{
-            // Generate SMTP service account from ethereal.email
-            nodemailer.createTestAccount((err, account) => {
-                if (err) {
-                    console.error('Failed to create a testing account');
-                    console.error(err);
-                    return process.exit(1);
+            var transporter = nodemailer.createTransport({
+                service: config.emailsettings.service,
+                auth: {
+                    user: config.emailsettings.user,
+                    pass: config.emailsettings.pass
                 }
+            });
 
-                console.log('Credentials obtained, sending message...');
+            var mailOptions = {
+                from: config.emailsettings.from,
+                to: config.emailsettings.to,
+                subject: 'Pick Ticket Monitor',
+                text: 'Pick Tickets havent printed in over 30 minutes.'
+            };
 
-                // NB! Store the account object values somewhere if you want
-                // to re-use the same account for future mail deliveries
+            transporter.sendMail(mailOptions, function (err, data) {
+                if (err) {
+                    console.log('Errors have occured');
+                } else {
+                    conssole.log('Email has been sent out!');
 
-                // Create a SMTP transporter object
-                let transporter = nodemailer.createTransport(
-                    {
-                        host: account.smtp.host,
-                        port: account.smtp.port,
-                        secure: account.smtp.secure,
-                        auth: {
-                            user: account.user,
-                            pass: account.pass
-                        },
-                        logger: true,
-                        debug: false // include SMTP traffic in the logs
-                    },
-                    {
-                        // default message fields
+                }
+            });
 
-                        // sender info
-                        from: 'Nodemailer <example@nodemailer.com>',
-                        headers: {
-                            'X-Laziness-level': 1000 // just an example header, no need to use this
-                        }
+            var generalChat = globalClient.channels.get(config.channels.generalChat);
+
+            generalChat.send({
+                embed: {
+                    color: 0x2ecc71,
+                    title: "Pick Ticket Alert",
+                    fields: [{
+                        name: "Pick Tickets havent printed in over:",
+                        value: '30 minutes, check sage alerts!'
                     }
-                );
-
-                // Message object
-                let message = {
-                    // Comma separated list of recipients
-                    to: 'Nodemailer <example@nodemailer.com>',
-
-                    // Subject of the message
-                    subject: 'Nodemailer is unicode friendly ?' + Date.now(),
-
-                    // plaintext body
-                    text: 'Hello to myself!',
-
-                    // HTML body
-                    html: `<p><b>Hello</b> to myself</p>`,
-
-                    list: {
-                        // List-Help: <mailto:admin@example.com?subject=help>
-                        help: 'admin@example.com?subject=help',
-
-                        // List-ID: "comment" <example.com>
-                        id: {
-                            url: 'mylist.example.com',
-                            comment: 'This is my awesome list'
-                        }
+                    ],
+                    timestamp: new Date(),
+                    footer: {
+                        text: "Current Time"
                     }
-                };
-
-                transporter.sendMail(message, (error, info) => {
-                    if (error) {
-                        console.log('Error occurred');
-                        console.log(error.message);
-                        return process.exit(1);
-                    }
-
-                    console.log('Message sent successfully!');
-                    console.log(nodemailer.getTestMessageUrl(info));
-
-                    // only needed when using pooled connections
-                    transporter.close();
-                });
+                }
             });
         }
 
@@ -104,7 +67,7 @@ module.exports = {
 
         // Restart the timer if alert has been triggered
         var weekdayTimer = emailAlert;
-        global.globalTimer = setTimeout(weekdayTimer, 120000);
+        global.globalTimer = setTimeout(weekdayTimer, 1800000);
         console.log("Restarted the timer incase issue still is ative with Sage Alerts!");
 
     }

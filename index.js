@@ -2,7 +2,6 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const Enmap = require("enmap");
 const config = require('./config.js');
-const cron = require('./modules/cron.js');
 const sendEmail = require('./modules/email.js');
 const client = new Discord.Client();
 
@@ -13,10 +12,10 @@ client.commands = new Enmap();
 var startEmailTimer = sendEmail.command_sendEmail;
 // Set some globals to call in other files
 global.globalClient = client;
-global.globalTimer = setTimeout(startEmailTimer, 5000); // 15m timer to trigger alert email
+global.globalTimer = setTimeout(startEmailTimer, 1800000); // 30 min timer to trigger alert email
 // Restart the timer after it reaches the end
 restartTimer = function () {
-    global.globalTimer = setTimeout(startEmailTimer, 5000); // 15m timer to trigger alert email
+    global.globalTimer = setTimeout(startEmailTimer, 1800000); // 30 min timer to trigger alert email
 };
 /*****************************************************
  *             Bring Over Location Commands          *
@@ -121,4 +120,3 @@ fs.readdir("./commands/", (err, files) => {
 });
 
 client.login(config.bot.token);
-//cron.cron_check_time();

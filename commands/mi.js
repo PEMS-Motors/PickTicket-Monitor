@@ -152,8 +152,8 @@ module.exports = {
             clearTimeout(globalTimer);
             console.log('Just reset the Email timer back to 0');
             console.log("File Added: " + fileDetail.fullPath);
-            global.globalTimer = setTimeout(startEmailTimer, 180000); // 15m timer to trigger alert email
-            console.log('Just started a new 15m Timer!');
+            global.globalTimer = setTimeout(startEmailTimer, 1800000); // 30 min timer to trigger alert email
+            console.log('Just started a new 30m Timer!');
         });
 
         console.log("MI Scanning has started");

@@ -38,6 +38,7 @@ module.exports = {
         "EMW": "true"
     },
     "filepaths": {
+        // File paths to the folders that needs monitoring
         "MI":  "Z:\\01A-Processed",
         "IL":  "Z:\\02A-Processed",
         "NC":  "Z:\\03A-Processed",
@@ -53,13 +54,20 @@ module.exports = {
         "EMW": "Z:\\EMW"
     },
     "channels": {
-        "generalToDo": "721760884346716211",
-        "help": "664878346575806490",
+        // Discord channel ID's
+        "generalChat": "721003424631488543",
         "mostrecent": "720455882332438600",
         "deleted": "720455909481906176",
         "recentlychanged": "720456429592641557",
         "status": "722104651297587261",
         "botspam": "664878346575806490"
+    },
+    "emailsettings": {
+        "service": 'xxx', //IE gmail
+        "user": 'xxx', // Must be full email (example@gmail.com)
+        "pass": 'xxx', // Password for account used above
+        "from": 'xxx', // Must be the email used for user account above
+        "to": 'xxx, xxx' // To add more emails just use ,
     },
     "colors": {
         "purple_dark": "#6a006a",

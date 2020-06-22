@@ -1,9 +1,11 @@
 const config = require('../config.js');
+const sendEmail = require('../modules/email.js');
 
 module.exports = {
     command_il: function () {
         // Imports / Requires
         var dirwatch = require("../modules/DirectoryWatcher.js");
+        var startEmailTimer = sendEmail.command_sendEmail;
         var locationChannel = globalClient.channels.get(config.locations.IL);
         var recentChannel = globalClient.channels.get(config.channels.mostrecent);
         var deletedChannel = globalClient.channels.get(config.channels.deleted);
@@ -147,9 +149,11 @@ module.exports = {
                     }
                 }
             });
-            //console.timeEnd("PickTicket Timer");
+            clearTimeout(globalTimer);
+            console.log('Just reset the Email timer back to 0');
             console.log("File Added: " + fileDetail.fullPath);
-            //console.time("PickTicket Timer");
+            global.globalTimer = setTimeout(startEmailTimer, 1800000); // 30 min timer to trigger alert email
+            console.log('Just started a new 30m Timer!');
         });
 
         console.log("IL Scanning has started");
